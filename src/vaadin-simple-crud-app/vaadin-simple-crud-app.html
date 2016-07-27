@@ -36,6 +36,11 @@
       </table>
     </vaadin-grid>
 
+    <paper-input id="first" label="First Name" value={{userRecord.firstName}}></paper-input>
+    <paper-input label="Last Name" value={{userRecord.lastName}}></paper-input>
+    <paper-input label="City" value={{userRecord.city}}></paper-input>
+    <paper-button raised on-tap="handleSave" id="saveButton">Save Entry</paper-button>
+
   </template>
 
   <script>
@@ -45,6 +50,14 @@
 
       properties: {
         _db: Object,
+
+        // {firstName, lastName, city, _id}
+        userRecord: {
+          type: Object,
+          value: function() {
+            return {};
+          },
+        },
       },
 
       created: function() {
@@ -67,6 +80,29 @@
           });
         };
       },
+
+      handleSave: function() {
+        let grid = this.$.grid;
+        let newDoc = Object.assign({}, this.userRecord);
+
+        // create a new id if one doesn't exist
+        if (!newDoc.hasOwnProperty('_id')) {
+          newDoc._id = new Date().toISOString();
+        }
+
+        // if doc exists, update new doc, otherwise create one
+        _db.upsert(newDoc._id, function(doc) {
+          // if the item already exists, update the _rev
+          newDoc._rev = doc._rev;
+          return newDoc;
+        }).then(function(doc) {
+          grid.refreshItems();
+          this.set('userRecord', {});
+        }.bind(this)).catch(function(err) {
+          console.log(err)
+        });
+      },
+
     });
   </script>
 </dom-module>
