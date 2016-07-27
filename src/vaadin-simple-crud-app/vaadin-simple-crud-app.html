@@ -1,0 +1,55 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<script src="../../bower_components/pouchdb/dist/pouchdb.min.js"></script>
+<script src="../../bower_components/pouchdb-upsert/dist/pouchdb.upsert.js"></script>
+
+
+<dom-module id="vaadin-simple-crud-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      vaadin-grid {
+        margin: 10px;
+        height: 300px;
+        border: 1px solid #dddddd;
+      }
+
+      paper-input {
+        width: 300px;
+      }
+    </style>
+    <h2>Hello [[prop1]]</h2>
+    <vaadin-grid id="customers">
+      <table>
+        <colgroup>
+          <col name="firstName">
+          <col name="lastName">
+          <col name="city">
+        </colgroup>
+      </table>
+    </vaadin-grid>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'vaadin-simple-crud-app',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'vaadin-simple-crud-app',
+        },
+      },
+
+    });
+  </script>
+</dom-module>

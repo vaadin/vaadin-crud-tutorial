@@ -1,0 +1,6 @@
+{
+  "name": "vaadin-simple-crud",
+  "short_name": "vaadin-simple-crud",
+  "start_url": "/",
+  "display": "standalone"
+}

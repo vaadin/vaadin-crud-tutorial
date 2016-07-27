@@ -1,0 +1,18 @@
+{
+  "name": "vaadin-simple-crud",
+  "main": "index.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "vaadin-grid": "^1.1.1",
+    "paper-input": "^1.1.15",
+    "pouchdb": "^5.4.5",
+    "paper-button": "^1.0.12",
+    "pouchdb-upsert": "^2.0.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  }
+}
