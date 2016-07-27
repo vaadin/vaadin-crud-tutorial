@@ -40,6 +40,7 @@
     <paper-input label="Last Name" value={{userRecord.lastName}}></paper-input>
     <paper-input label="City" value={{userRecord.city}}></paper-input>
     <paper-button raised on-tap="handleSave" id="saveButton">Save Entry</paper-button>
+    <paper-button raised on-tap="handleDelete" id="deleteButton" disabled>Delete Entry</paper-button>
 
   </template>
 
@@ -58,6 +59,10 @@
             return {};
           },
         },
+      },
+
+      listeners: {
+        'grid.selected-items-changed': 'handleSelect',
       },
 
       created: function() {
@@ -81,6 +86,26 @@
         };
       },
 
+      handleSelect: function(e) {
+        let grid = this.$.grid;
+
+        // on deselect clear the userRecord
+        if (grid.selection.size === 0) {
+          this.set('userRecord', {});
+            this.$.deleteButton.disabled = true;
+          return;
+        }
+
+        // selected() returns an array, so get the selected item
+        let index = grid.selection.selected()[0];
+
+        grid.getItem(index, function(err, item) {
+          this.set('userRecord', Object.assign({}, item));
+          this.$.deleteButton.disabled = false;
+        }.bind(this));
+      },
+
+
       handleSave: function() {
         let grid = this.$.grid;
         let newDoc = Object.assign({}, this.userRecord);
@@ -97,12 +122,23 @@
           return newDoc;
         }).then(function(doc) {
           grid.refreshItems();
-          this.set('userRecord', {});
-        }.bind(this)).catch(function(err) {
+          grid.selection.clear();
+        }).catch(function(err) {
           console.log(err)
         });
       },
 
+      handleDelete: function() {
+        let grid = this.$.grid;
+
+        _db.remove(this.userRecord._id, this.userRecord._rev).then(function(doc) {
+          grid.selection.clear();
+        }).then(function(doc) {
+          grid.refreshItems();
+        }).catch(function(err) {
+          console.log(err);
+        });
+      },
     });
   </script>
 </dom-module>
