@@ -25,8 +25,8 @@
         width: 300px;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
-    <vaadin-grid id="customers">
+    <h2>Vaadin CRUD Demo</h2>
+    <vaadin-grid id="grid">
       <table>
         <colgroup>
           <col name="firstName">
@@ -44,12 +44,29 @@
       is: 'vaadin-simple-crud-app',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'vaadin-simple-crud-app',
-        },
+        _db: Object,
       },
 
+      created: function() {
+        _db = new PouchDB('users');
+      },
+
+      ready: function() {
+        let grid = this.$.grid;
+
+        grid.items = function(params, callback) {
+          _db.allDocs({
+            include_docs: true,
+            skip: params.index,
+            limit: params.count,
+          }).then(function(response) {
+            let rows = response.rows.map(row => row.doc)
+            callback(rows, response.total_rows)
+          }).catch(function(err) {
+            console.log(err);
+          });
+        };
+      },
     });
   </script>
 </dom-module>
