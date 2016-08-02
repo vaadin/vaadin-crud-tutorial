@@ -36,9 +36,9 @@
       </table>
     </vaadin-grid>
 
-    <paper-input id="first" label="First Name" value={{userRecord.firstName}}></paper-input>
-    <paper-input label="Last Name" value={{userRecord.lastName}}></paper-input>
-    <paper-input label="City" value={{userRecord.city}}></paper-input>
+    <paper-input id="first" label="First Name" value="{{userRecord.firstName}}"></paper-input>
+    <paper-input label="Last Name" value="{{userRecord.lastName}}"></paper-input>
+    <paper-input label="City" value="{{userRecord.city}}"></paper-input>
     <paper-button raised on-tap="handleSave" id="saveButton">Save Entry</paper-button>
     <paper-button raised on-tap="handleDelete" id="deleteButton" disabled>Delete Entry</paper-button>
 
@@ -70,7 +70,7 @@
       },
 
       ready: function() {
-        let grid = this.$.grid;
+        var grid = this.$.grid;
 
         grid.items = function(params, callback) {
           _db.allDocs({
@@ -78,7 +78,9 @@
             skip: params.index,
             limit: params.count,
           }).then(function(response) {
-            let rows = response.rows.map(row => row.doc)
+            var rows = response.rows.map(function(row) {
+              return row.doc;
+            });
             callback(rows, response.total_rows)
           }).catch(function(err) {
             console.log(err);
@@ -87,17 +89,17 @@
       },
 
       handleSelect: function(e) {
-        let grid = this.$.grid;
+        var grid = this.$.grid;
 
         // on deselect clear the userRecord
         if (grid.selection.size === 0) {
           this.set('userRecord', {});
-            this.$.deleteButton.disabled = true;
+          this.$.deleteButton.disabled = true;
           return;
         }
 
         // selected() returns an array, so get the selected item
-        let index = grid.selection.selected()[0];
+        var index = grid.selection.selected()[0];
 
         grid.getItem(index, function(err, item) {
           this.set('userRecord', Object.assign({}, item));
@@ -107,8 +109,8 @@
 
 
       handleSave: function() {
-        let grid = this.$.grid;
-        let newDoc = Object.assign({}, this.userRecord);
+        var grid = this.$.grid;
+        var newDoc = Object.assign({}, this.userRecord);
 
         // create a new id if one doesn't exist
         if (!newDoc.hasOwnProperty('_id')) {
@@ -129,7 +131,7 @@
       },
 
       handleDelete: function() {
-        let grid = this.$.grid;
+        var grid = this.$.grid;
 
         _db.remove(this.userRecord._id, this.userRecord._rev).then(function(doc) {
           grid.selection.clear();
