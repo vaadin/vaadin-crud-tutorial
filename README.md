@@ -1,4 +1,4 @@
-# \<vaadin-simple-crud\>
+# Vaadin Elements CRUD Tutorial
 
 A simple CRUD demo using vaadin-grid, Polymer elements, and pouchDB.
 
