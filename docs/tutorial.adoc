@@ -174,8 +174,15 @@ The app loads all rows from the users database and populates the grid.
 .The grid is created and ready for data.
 image::img/grid-created.png[]
 
-[IMPORTANT]
-TODO TODO TODO: explain why params.skip is not great.
+[NOTE]
+===============================
+The `skip` parameter on the `allDocs` method can lead to poor behavior for large values.
+
+This example, however, is small enough that performance is not a great concern.
+
+See link:https://pouchdb.com/2014/04/14/pagination-strategies-with-pouchdb.html[this Pouch DB article] for more information.
+===============================
+
 
 == Creating Database Entries
 
