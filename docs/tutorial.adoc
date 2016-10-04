@@ -1,11 +1,11 @@
 ---
 title: Elements CRUD Tutorial
-order: 1
+order: 20
 layout: page
 ---
 
 [[elements-crud-tutorial.tutorial]]
-== Vaadin Elements CRUD Tutorial
+= Vaadin Elements CRUD Tutorial
 
 [.author]
 [name]#Juniper Belmont# <juniper.belmont@vaadin.com>
